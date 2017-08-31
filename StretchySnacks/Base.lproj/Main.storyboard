@@ -51,6 +51,7 @@
                     <connections>
                         <outlet property="heightConstraint" destination="jJz-9h-Bt9" id="BTt-PK-bPN"/>
                         <outlet property="navBarView" destination="eG7-Su-f3s" id="kxT-Ip-ujp"/>
+                        <outlet property="plusButton" destination="63x-St-c0V" id="6pn-SV-jOE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
