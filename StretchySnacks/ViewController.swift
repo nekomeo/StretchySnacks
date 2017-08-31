@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var navBarView: UIView!
+    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,14 +23,21 @@ class ViewController: UIViewController {
     }
     
     func autoLayoutConstraints() {
-        UIView .animate(withDuration: 0.5, animations: {
-            self.navBarView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 200)
-        })
+        
+        UIView .animate(withDuration: 2.0,
+                        delay: 0,
+                        usingSpringWithDamping: 0.4,
+                        initialSpringVelocity: 0,
+                        options: .beginFromCurrentState,
+                        animations: { 
+                            self.heightConstraint.constant = 200
+                            self.view.layoutIfNeeded()
+        },
+                        completion: nil)
     }
 
 
     @IBAction func addButton(_ sender: UIButton) {
-        print("Print icon pressed")
         autoLayoutConstraints()
     }
 }

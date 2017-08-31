@@ -36,8 +36,8 @@
                                 <color key="backgroundColor" red="0.8666666666666667" green="0.8666666666666667" blue="0.8666666666666667" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="63x-St-c0V" secondAttribute="trailing" constant="8" id="JhC-hu-eRl"/>
+                                    <constraint firstItem="63x-St-c0V" firstAttribute="top" secondItem="eG7-Su-f3s" secondAttribute="top" constant="17" id="cdr-yb-w30"/>
                                     <constraint firstAttribute="height" constant="64" id="jJz-9h-Bt9"/>
-                                    <constraint firstAttribute="bottom" secondItem="63x-St-c0V" secondAttribute="bottom" constant="8" id="uda-Na-3Xb"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -49,6 +49,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="heightConstraint" destination="jJz-9h-Bt9" id="BTt-PK-bPN"/>
                         <outlet property="navBarView" destination="eG7-Su-f3s" id="kxT-Ip-ujp"/>
                     </connections>
                 </viewController>
