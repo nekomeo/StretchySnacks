@@ -8,27 +8,50 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+
+
+class ViewController: UIViewController, UITableViewDataSource {
+    
+    enum buttonTags:String {
+        case Oreos = "Oreos"
+        case PizzaPockets = "Pizza Pockets"
+        case PopTarts = "Pop Tarts"
+        case Popsicle = "Popsicle"
+        case Ramen = "Ramen"
+    }
+    
+    //MARK: - Outlets
     @IBOutlet weak var navBarView: UIView!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     @IBOutlet weak var plusButton: UIButton!
+    @IBOutlet weak var tableView: UITableView!
     
-    var stackView: UIStackView!
+    //MARK: - Properties
+    var stackView = UIStackView()
+    var addSnackArray: [String] = []
+    var snackStack = [#imageLiteral(resourceName: "oreos"),
+                      #imageLiteral(resourceName: "pizza_pockets"),
+                      #imageLiteral(resourceName: "pop_tarts"),
+                      #imageLiteral(resourceName: "popsicle"),
+                      #imageLiteral(resourceName: "ramen")]
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.tableView.dataSource = self
+        
         horizonalStackView()
         stackView.isHidden = true
+        
+        
     }
     
-    //MARK: Navigation Controller
+    //MARK: - Navigation Controller Stuff
     func navBarAutoLayoutConstraints() {
         
         UIView.animate(withDuration: 1.25,
                         delay: 0,
-                        usingSpringWithDamping: 0.4,
+                        usingSpringWithDamping: 0.3,
                         initialSpringVelocity: 0,
                         options: .beginFromCurrentState,
                         animations: {
@@ -65,11 +88,8 @@ class ViewController: UIViewController {
             }
         })
         
-        if isOpen {
-            stackView.isHidden = false
-        } else {
-            stackView.isHidden = true
-        }
+        stackView.isHidden = !isOpen
+//        stackView.isHidden = (isOpen == false) // Alternate way to hide stackView
     }
 
 
@@ -80,28 +100,25 @@ class ViewController: UIViewController {
     
     //MARK: - Stackview
     func horizonalStackView() {
-        let oreoView = UIImageView(image: #imageLiteral(resourceName: "oreos"))
-        let pizzaView = UIImageView(image: #imageLiteral(resourceName: "pizza_pockets"))
-        let poptartView = UIImageView(image: #imageLiteral(resourceName: "pop_tarts"))
-        let popsicleView = UIImageView(image: #imageLiteral(resourceName: "popsicle"))
-        let ramenView = UIImageView(image: #imageLiteral(resourceName: "ramen"))
+        
+        snackButtons()
         
         // set an aspect ratio
-        let oreoAspectRatio = NSLayoutConstraint(item: oreoView,
-                                                 attribute: .height,
-                                                 relatedBy: .equal,
-                                                 toItem: oreoView,
-                                                 attribute: .width,
-                                                 multiplier: 1,
-                                                 constant: 0)
-        oreoView.addConstraint(oreoAspectRatio)
-        
-        stackView = UIStackView(arrangedSubviews: [oreoView, pizzaView, poptartView, popsicleView, ramenView])
+//        let oreoAspectRatio = NSLayoutConstraint(item: oreoView,
+//                                                 attribute: .height,
+//                                                 relatedBy: .equal,
+//                                                 toItem: oreoView,
+//                                                 attribute: .width,
+//                                                 multiplier: 1,
+//                                                 constant: 0)
+//        oreoView.addConstraint(oreoAspectRatio)
+//        
+//        stackView = UIStackView(arrangedSubviews: [oreoView, pizzaView, poptartView, popsicleView, ramenView])
 
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.alignment = .fill
-        stackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        stackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         navBarView.addSubview(stackView)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -109,5 +126,65 @@ class ViewController: UIViewController {
         stackView.trailingAnchor.constraint(equalTo: self.navBarView.trailingAnchor, constant: 0).isActive = true
         stackView.bottomAnchor.constraint(equalTo: self.navBarView.bottomAnchor, constant: 0).isActive = true
     }
+    
+    //MARK: - TableView Data Source
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return addSnackArray.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        cell.textLabel?.text = addSnackArray[indexPath.row]
+        
+        return cell
+    }
+    
+    //MARK: - Add Snacks
+    func snackButtons()
+    {
+        
+        for snack in snackStack
+        {
+    
+            let snackButton = UIButton()
+            snackButton.translatesAutoresizingMaskIntoConstraints = false
+            stackView.addArrangedSubview(snackButton)
+            
+            snackButton.heightAnchor.constraint(equalTo: snackButton.widthAnchor).isActive = true
+           // snackButton.widthAnchor.constraint(equalToConstant: self.navBarView.frame.size.width).isActive = true
+            
+            snackButton.setImage(snack, for: .normal)
+            snackButton.tag = snackStack.index(of: snack)!
+            snackButton.addTarget(self, action: #selector(addSnackToList(sender:)), for: .touchUpInside)
+        }
+    }
+    
+    func addSnackToList(sender: UIButton)
+    {
+        switch sender.tag {
+        case buttonTags.Oreos.hashValue:
+            addSnackArray.append(buttonTags.Oreos.rawValue)
+            break
+        case buttonTags.PizzaPockets.hashValue:
+            addSnackArray.append(buttonTags.PizzaPockets.rawValue)
+            break
+        case buttonTags.PopTarts.hashValue:
+            addSnackArray.append(buttonTags.PopTarts.rawValue)
+            break
+        case buttonTags.Popsicle.hashValue:
+            addSnackArray.append(buttonTags.Popsicle.rawValue)
+            break
+        case buttonTags.Ramen.hashValue:
+            addSnackArray.append(buttonTags.Ramen.rawValue)
+            break
+        default:
+            break
+        }
+        tableView.reloadData()
+    }
 }
+
 
