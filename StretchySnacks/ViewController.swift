@@ -33,6 +33,8 @@ class ViewController: UIViewController, UITableViewDataSource {
                       #imageLiteral(resourceName: "popsicle"),
                       #imageLiteral(resourceName: "ramen")]
     
+    let snackLabel = UILabel()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,11 +79,13 @@ class ViewController: UIViewController, UITableViewDataSource {
             if (self.plusButton.transform == CGAffineTransform(rotationAngle: -CGFloat.pi/4))
             {
                 self.plusButton.transform = CGAffineTransform(rotationAngle: 0)
+                self.snackLabel.text = "SNACKS"
                 isOpen = false
             }
             else if (self.plusButton.transform == CGAffineTransform(rotationAngle: 0))
             {
                 self.plusButton.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/4)
+                self.snackLabel.text = "Add a snack"
                 isOpen = true
             }
         })
@@ -98,7 +102,6 @@ class ViewController: UIViewController, UITableViewDataSource {
     
     func titleLabel()
     {
-        let snackLabel = UILabel()
         snackLabel.text = "SNACKS"
         snackLabel.textAlignment = .center
         self.navBarView.addSubview(snackLabel)
