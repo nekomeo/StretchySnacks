@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 class ViewController: UIViewController, UITableViewDataSource {
     
     enum buttonTags:String {
@@ -41,8 +39,8 @@ class ViewController: UIViewController, UITableViewDataSource {
         self.tableView.dataSource = self
         
         horizonalStackView()
+        titleLabel()
         stackView.isHidden = true
-        
         
     }
     
@@ -98,27 +96,35 @@ class ViewController: UIViewController, UITableViewDataSource {
         plusButtonRotation()
     }
     
+    func titleLabel()
+    {
+        let snackLabel = UILabel()
+        snackLabel.text = "SNACKS"
+        snackLabel.textAlignment = .center
+        self.navBarView.addSubview(snackLabel)
+        
+        snackLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        snackLabel.centerXAnchor.constraint(equalTo: navBarView.centerXAnchor).isActive = true
+        
+        let labelConstraint = NSLayoutConstraint(item: snackLabel,
+                                                 attribute: .centerY,
+                                                 relatedBy: .equal,
+                                                 toItem: navBarView,
+                                                 attribute: .centerY,
+                                                 multiplier: 1.0,
+                                                 constant: 0.0)
+        labelConstraint.isActive = true
+    }
+    
     //MARK: - Stackview
     func horizonalStackView() {
         
         snackButtons()
-        
-        // set an aspect ratio
-//        let oreoAspectRatio = NSLayoutConstraint(item: oreoView,
-//                                                 attribute: .height,
-//                                                 relatedBy: .equal,
-//                                                 toItem: oreoView,
-//                                                 attribute: .width,
-//                                                 multiplier: 1,
-//                                                 constant: 0)
-//        oreoView.addConstraint(oreoAspectRatio)
-//        
-//        stackView = UIStackView(arrangedSubviews: [oreoView, pizzaView, poptartView, popsicleView, ramenView])
 
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.alignment = .fill
-//        stackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         navBarView.addSubview(stackView)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -145,10 +151,8 @@ class ViewController: UIViewController, UITableViewDataSource {
     //MARK: - Add Snacks
     func snackButtons()
     {
-        
         for snack in snackStack
         {
-    
             let snackButton = UIButton()
             snackButton.translatesAutoresizingMaskIntoConstraints = false
             stackView.addArrangedSubview(snackButton)
